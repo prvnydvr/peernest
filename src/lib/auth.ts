@@ -43,22 +43,26 @@ export async function verifyPassword(password: string, passwordHash: string) {
 }
 
 export async function getCurrentUser() {
-  if (!hasSupabaseConfig()) {
-    const token = await readSessionCookie();
+  const token = await readSessionCookie();
 
-    if (!token) {
-      return null;
-    }
-
+  if (token) {
     try {
       const session = await verifySessionToken(token);
-      return db.user.findUnique({
+      const user = await db.user.findUnique({
         where: { id: session.sub },
         select: currentUserSelect,
       });
+
+      if (user) {
+        return user;
+      }
     } catch {
-      return null;
+      await clearSessionCookie();
     }
+  }
+
+  if (!hasSupabaseConfig()) {
+    return null;
   }
 
   const supabase = await createSupabaseServerClient();
@@ -115,76 +119,41 @@ export async function signUpWithSupabase({
   interests: string[];
   skills: string[];
 }) {
-  if (!hasSupabaseConfig()) {
-    const user = await db.user.create({
-      data: {
-        email,
-        username,
-        name,
-        college,
-        bio,
-        interests,
-        skills,
-        passwordHash: await hashPassword(password),
-      },
-      select: { id: true },
-    });
-
-    await signInLocalUser(user.id);
-    return { user: null, session: { access_token: "local" } };
-  }
-
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${getBaseUrl()}/api/auth/callback`,
-      data: {
-        username,
-        name,
-        college,
-        bio,
-        interests,
-        skills,
-      },
+  const user = await db.user.create({
+    data: {
+      email,
+      username,
+      name,
+      college,
+      bio,
+      interests,
+      skills,
+      passwordHash: await hashPassword(password),
     },
+    select: { id: true },
   });
 
-  if (error) {
-    throw new AppError(error.message, 400);
-  }
-
-  if (!data.user) {
-    throw new AppError("Supabase did not return a user for this signup.", 500);
-  }
-
-  await upsertAppUser(data.user, {
-    email,
-    username,
-    name,
-    college,
-    bio,
-    interests,
-    skills,
-  });
-
-  return data;
+  await signInLocalUser(user.id);
+  return { user: null, session: { access_token: "local" } };
 }
 
 export async function signInWithSupabase(email: string, password: string) {
-  if (!hasSupabaseConfig()) {
-    const user = await db.user.findUnique({
-      where: { email },
-      select: { id: true, passwordHash: true },
-    });
+  const localUser = await db.user.findUnique({
+    where: { email },
+    select: { id: true, passwordHash: true },
+  });
 
-    if (!user?.passwordHash || !(await verifyPassword(password, user.passwordHash))) {
+  if (localUser?.passwordHash) {
+    if (!(await verifyPassword(password, localUser.passwordHash))) {
       throw new AppError("Invalid email or password.", 401);
     }
 
-    await signInLocalUser(user.id);
-    return user;
+    await signInLocalUser(localUser.id);
+    return localUser;
+  }
+
+  if (!hasSupabaseConfig()) {
+    throw new AppError("Invalid email or password.", 401);
   }
 
   const supabase = await createSupabaseServerClient();
@@ -205,8 +174,9 @@ export async function signInWithSupabase(email: string, password: string) {
 }
 
 export async function signOutUser() {
+  await clearSessionCookie();
+
   if (!hasSupabaseConfig()) {
-    await clearSessionCookie();
     return;
   }
 

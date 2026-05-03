@@ -139,7 +139,7 @@ export default function SignUpPage() {
             </a>
             <div className="flex items-center justify-center gap-2 text-xs text-muted">
               <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-              Supabase powers email and Google auth when your project keys are configured.
+              Email signup works instantly. Google sign-in uses Supabase OAuth when the provider is configured.
             </div>
           </div>
         </div>

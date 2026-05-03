@@ -21,10 +21,9 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env["NEXT_PUBLIC_SUPABASE_URL"];
   const supabaseKey = process.env["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"];
   const hasSupabaseConfig = Boolean(supabaseUrl && supabaseKey);
+  const hasLocalSession = Boolean(request.cookies.get(SESSION_COOKIE_NAME)?.value);
 
   if (!hasSupabaseConfig) {
-    const hasLocalSession = Boolean(request.cookies.get(SESSION_COOKIE_NAME)?.value);
-
     if (protectedPrefixes.some((prefix) => pathname.startsWith(prefix)) && !hasLocalSession) {
       const url = new URL("/sign-in", request.url);
       url.searchParams.set("next", pathname);
@@ -55,14 +54,15 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const isAuthenticated = hasLocalSession || Boolean(user);
 
-  if (protectedPrefixes.some((prefix) => pathname.startsWith(prefix)) && !user) {
+  if (protectedPrefixes.some((prefix) => pathname.startsWith(prefix)) && !isAuthenticated) {
     const url = new URL("/sign-in", request.url);
     url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (guestOnlyPrefixes.some((prefix) => pathname.startsWith(prefix)) && user) {
+  if (guestOnlyPrefixes.some((prefix) => pathname.startsWith(prefix)) && isAuthenticated) {
     return NextResponse.redirect(new URL("/feed", request.url));
   }
 

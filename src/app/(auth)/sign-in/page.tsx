@@ -88,7 +88,7 @@ async function SignInForm({ action }: { action: string }) {
       </p>
       <p className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-center text-xs text-muted">
         <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-        {supabaseReady ? "Auth is handled by Supabase." : "Local demo login: ava@peernest.dev / Password123!"}
+        {supabaseReady ? "Email/password uses your PeerNest account. Google sign-in uses Supabase OAuth." : "Local demo login: ava@peernest.dev / Password123!"}
       </p>
     </>
   );
