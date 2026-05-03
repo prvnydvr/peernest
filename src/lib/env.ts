@@ -31,7 +31,13 @@ export function getServerEnv() {
 }
 
 export function getBaseUrl() {
-  return getServerEnv().APP_URL.replace(/\/$/, "");
+  const envUrl = getServerEnv().APP_URL.replace(/\/$/, "");
+
+  if (process.env["VERCEL_URL"] && (!envUrl || envUrl === "http://localhost:3000")) {
+    return `https://${process.env["VERCEL_URL"]}`;
+  }
+
+  return envUrl;
 }
 
 export function hasSupabaseConfig() {
