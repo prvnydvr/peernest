@@ -38,9 +38,10 @@ export function AppShell({
           <MobileNavLinks unreadNotifications={unreadNotifications} />
         </header>
         <aside className="hidden lg:sticky lg:top-4 lg:block lg:h-[calc(100vh-2rem)]">
-          <div className="panel flex h-full flex-col p-3">
-            <Link href="/feed" className="mb-4 flex items-center gap-3 rounded-2xl px-2 py-2 hover:bg-slate-50">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-950 text-sm font-bold text-white shadow-sm">
+          <div className="panel relative overflow-hidden flex h-full flex-col p-3 border-white/40 bg-white/60 shadow-xl shadow-slate-200/50 backdrop-blur-3xl">
+            <div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-accent/5 blur-3xl" />
+            <Link href="/feed" className="relative z-10 mb-4 flex items-center gap-3 rounded-2xl px-2 py-2 transition-all duration-300 hover:bg-white/80 hover:shadow-sm">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950 text-sm font-bold text-white shadow-md">
                 PN
               </div>
               <div>
@@ -48,24 +49,26 @@ export function AppShell({
                 <p className="text-xs text-muted">Study with peers</p>
               </div>
             </Link>
-            <NavLinks unreadNotifications={unreadNotifications} />
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+            <div className="relative z-10">
+              <NavLinks unreadNotifications={unreadNotifications} />
+            </div>
+            <div className="relative z-10 mt-6 rounded-2xl border border-white/50 bg-white/40 p-3 backdrop-blur-md shadow-sm">
               <div className="flex items-center justify-between gap-2">
                 <p className="section-eyebrow">Communities</p>
                 <Link href="/communities" className="text-xs font-semibold text-accent">Browse</Link>
               </div>
               <div className="mt-3 grid gap-2">
                 {communities.slice(0, 6).map((community) => (
-                  <Link key={community.id} href={`/communities/${community.slug}`} className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-600 hover:bg-white">
-                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: community.topicColor }} />
+                  <Link key={community.id} href={`/communities/${community.slug}`} className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-slate-950 hover:shadow-sm">
+                    <span className="h-2.5 w-2.5 rounded-full shadow-sm" style={{ background: community.topicColor }} />
                     <span className="truncate">{community.name}</span>
                   </Link>
                 ))}
                 {!communities.length ? <p className="px-3 py-2 text-sm text-muted">Join a community to personalize your feed.</p> : null}
               </div>
             </div>
-            <div className="mt-auto border-t border-border pt-4">
-              <Link href={`/profile/${user.username}`} className="flex items-center gap-3 rounded-2xl p-2 hover:bg-slate-50">
+            <div className="relative z-10 mt-auto border-t border-white/40 pt-4">
+              <Link href={`/profile/${user.username}`} className="flex items-center gap-3 rounded-2xl p-2 transition-all duration-300 hover:bg-white/80 hover:shadow-sm">
                 <Avatar name={user.name} imageUrl={user.avatarUrl} />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold">{user.name}</p>
@@ -73,7 +76,7 @@ export function AppShell({
                 </div>
               </Link>
               <form action="/api/auth/sign-out" method="post" className="mt-2">
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-muted hover:bg-slate-950 hover:text-white">
+                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-500 transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-900 hover:text-white hover:shadow-md">
                   <LogOut className="h-4 w-4" />
                   Sign out
                 </button>

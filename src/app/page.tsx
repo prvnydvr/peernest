@@ -50,11 +50,11 @@ export default async function MarketingPage() {
           </div>
         </header>
 
-        <section className="surface-card mask-noise relative overflow-hidden px-8 py-12 sm:px-12 sm:py-16">
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-r from-accent/12 via-white/40 to-transparent blur-3xl" />
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="surface-card mask-noise relative overflow-hidden px-8 py-12 sm:px-12 sm:py-16 mt-8">
+          <div className="absolute -inset-x-20 top-0 h-80 bg-gradient-to-r from-accent/20 via-purple-500/10 to-accent-strong/20 blur-[100px]" />
+          <div className="relative grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="relative">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.26em] text-accent">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-accent-strong shadow-sm">
                 <Sparkles className="h-3.5 w-3.5" />
                 Student-first network
               </div>
@@ -68,30 +68,30 @@ export default async function MarketingPage() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href="/sign-up"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 dark:bg-white dark:text-slate-950"
+                  className="btn-primary px-6 py-3.5 text-base"
                 >
                   Launch your profile
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/sign-in"
-                  className="rounded-2xl border border-border bg-white/70 px-5 py-3 text-sm font-semibold text-foreground hover:-translate-y-0.5"
+                  className="btn-secondary px-6 py-3.5 text-base bg-white/50 backdrop-blur-md"
                 >
                   Explore the product
                 </Link>
               </div>
-              <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                <div className="rounded-3xl border border-border/80 bg-white/70 p-5">
+              <div className="mt-12 grid gap-5 sm:grid-cols-3">
+                <div className="surface-card-strong p-6 transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-xl hover:shadow-accent/10">
                   <p className="text-3xl font-semibold text-slate-950">3x</p>
                   <p className="mt-1 text-sm leading-6 text-muted">Faster peer response loops inside focused communities</p>
                 </div>
-                <div className="rounded-3xl border border-border/80 bg-white/70 p-5">
+                <div className="surface-card-strong p-6 transition-all duration-300 hover:-translate-y-2 hover:-rotate-1 hover:shadow-xl hover:shadow-accent/10">
                   <p className="text-3xl font-semibold text-slate-950">One feed</p>
-                  <p className="mt-1 text-sm leading-6 text-muted">Questions, project opportunities, and trusted resources</p>
+                  <p className="mt-2 text-sm leading-6 text-muted">Questions, project opportunities, and trusted resources</p>
                 </div>
-                <div className="rounded-3xl border border-border/80 bg-white/70 p-5">
+                <div className="surface-card-strong p-6 transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-xl hover:shadow-accent/10">
                   <p className="text-3xl font-semibold text-slate-950">Real rep</p>
-                  <p className="mt-1 text-sm leading-6 text-muted">Contribution-based reputation that rewards useful work</p>
+                  <p className="mt-2 text-sm leading-6 text-muted">Contribution-based reputation that rewards useful work</p>
                 </div>
               </div>
             </div>
@@ -135,13 +135,13 @@ export default async function MarketingPage() {
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
-                {featureCards.map(({ icon: Icon, title, body }) => (
-                  <div key={title} className="surface-card px-5 py-5">
-                    <div className="mb-4 inline-flex rounded-2xl bg-accent/10 p-3 text-accent">
-                      <Icon className="h-5 w-5" />
+                {featureCards.map(({ icon: Icon, title, body }, i) => (
+                  <div key={title} className={`surface-card p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent/10 ${i === 1 ? 'hover:rotate-1' : 'hover:-rotate-1'}`}>
+                    <div className="mb-5 inline-flex rounded-2xl bg-accent/10 p-3 text-accent transition-transform duration-300 group-hover:scale-110">
+                      <Icon className="h-6 w-6" />
                     </div>
                     <h2 className="text-lg font-semibold">{title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
+                    <p className="mt-3 text-sm leading-6 text-muted">{body}</p>
                   </div>
                 ))}
               </div>

@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f9;
-  --foreground: #101828;
-  --card: rgba(255, 255, 255, 0.88);
-  --card-strong: #ffffff;
-  --muted: #667085;
-  --border: rgba(17, 24, 39, 0.1);
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --surface: rgba(255, 255, 255, 0.94);
-  --surface-soft: rgba(255, 255, 255, 0.76);
+  --background: #fafafa;
+  --foreground: #0f172a;
+  --card: rgba(255, 255, 255, 0.7);
+  --card-strong: rgba(255, 255, 255, 0.95);
+  --muted: #64748b;
+  --border: rgba(15, 23, 42, 0.08);
+  --accent: #6366f1;
+  --accent-strong: #4f46e5;
+  --surface: rgba(255, 255, 255, 0.85);
+  --surface-soft: rgba(255, 255, 255, 0.5);
 }
 
 @theme inline {
@@ -29,16 +29,16 @@
 }
 
 .dark {
-  --background: #07111f;
-  --foreground: #eef5ff;
-  --card: rgba(8, 18, 34, 0.84);
-  --card-strong: #08121f;
-  --muted: #aab7cd;
-  --border: rgba(255, 255, 255, 0.08);
-  --accent: #3aa2ff;
-  --accent-strong: #85c6ff;
-  --surface: rgba(10, 18, 34, 0.92);
-  --surface-soft: rgba(9, 17, 31, 0.72);
+  --background: #020617;
+  --foreground: #f8fafc;
+  --card: rgba(15, 23, 42, 0.6);
+  --card-strong: rgba(15, 23, 42, 0.9);
+  --muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.05);
+  --accent: #818cf8;
+  --accent-strong: #a5b4fc;
+  --surface: rgba(30, 41, 59, 0.7);
+  --surface-soft: rgba(30, 41, 59, 0.4);
 }
 
 * {
@@ -53,14 +53,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   background-image:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(246, 247, 249, 0.82) 42%, rgba(246, 247, 249, 1)),
-    radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.09), transparent 24%),
-    radial-gradient(circle at 94% 12%, rgba(16, 185, 129, 0.08), transparent 22%);
+    radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.08), transparent 40%),
+    radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.08), transparent 40%);
   font-family: var(--font-plus-jakarta), sans-serif;
+  min-height: 100vh;
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.18);
+  background: rgba(99, 102, 241, 0.2);
 }
 
 @layer base {
@@ -95,23 +95,23 @@ body {
 
 @layer components {
   .surface-card {
-    @apply rounded-xl border border-border/80 bg-card shadow-[0_18px_60px_-44px_rgba(17,24,39,0.42)] backdrop-blur-xl;
+    @apply rounded-2xl border border-white/40 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-2xl transition-all duration-300;
   }
 
   .surface-card-strong {
-    @apply rounded-xl border border-border bg-card-strong shadow-[0_18px_60px_-46px_rgba(17,24,39,0.5)];
+    @apply rounded-2xl border border-white/50 bg-card-strong shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300;
   }
 
   .panel {
-    @apply rounded-2xl border border-border bg-white/95 shadow-[0_18px_50px_-42px_rgba(17,24,39,0.42)];
+    @apply rounded-2xl border border-white/60 bg-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-2xl transition-all duration-300;
   }
 
   .interactive-panel {
-    @apply rounded-2xl border border-border bg-white/95 shadow-[0_18px_50px_-42px_rgba(17,24,39,0.42)] hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_26px_70px_-48px_rgba(17,24,39,0.52)];
+    @apply rounded-2xl border border-white/60 bg-white/70 shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:border-accent/30 hover:bg-white/90 hover:shadow-[0_20px_40px_rgba(99,102,241,0.08)];
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] hover:-translate-y-0.5 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent/30 active:translate-y-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-accent-strong px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(99,102,241,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_12px_25px_rgba(99,102,241,0.35)] focus:outline-none focus:ring-2 focus:ring-accent/50 active:translate-y-0 active:scale-95;
   }
 
   .btn-secondary {
@@ -179,10 +179,20 @@ body {
   }
 
   .hero-grid {
+    position: relative;
+    background-color: var(--background);
+  }
+
+  .hero-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background-image:
-      linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
-    background-size: 28px 28px;
+      linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
   }
 
   .mask-noise {

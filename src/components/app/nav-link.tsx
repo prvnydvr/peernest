@@ -54,8 +54,8 @@ function NavItem({ href, label, icon, badge }: { href: string; label: string; ic
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold ${
-        isActive ? "nav-active" : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-100 hover:text-slate-950"
+      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-300 ${
+        isActive ? "bg-gradient-to-r from-accent to-accent-strong text-white shadow-md shadow-accent/25 translate-x-1" : "text-slate-600 hover:-translate-y-0.5 hover:bg-white hover:text-slate-950 hover:shadow-sm"
       }`}
     >
       {icon}
@@ -72,8 +72,8 @@ function MobileNavItem({ href, label, icon, badge }: { href: string; label: stri
   return (
     <Link
       href={href}
-      className={`relative inline-flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
-        isActive ? "border-slate-950 bg-slate-950 text-white" : "border-border bg-white text-slate-600 hover:border-slate-300 hover:text-slate-950"
+      className={`relative inline-flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-300 ${
+        isActive ? "border-transparent bg-gradient-to-r from-accent to-accent-strong text-white shadow-md shadow-accent/25" : "border-white/50 bg-white/60 text-slate-600 hover:-translate-y-0.5 hover:bg-white hover:text-slate-950 hover:shadow-sm"
       }`}
     >
       {icon}
