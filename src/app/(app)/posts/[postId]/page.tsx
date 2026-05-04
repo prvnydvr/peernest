@@ -105,11 +105,16 @@ export default async function PostThreadPage({ params }: { params: Promise<{ pos
 
 function AnswerVote({ answerId, value, active, redirectTo }: { answerId: string; value: 1 | -1; active: boolean; redirectTo: string }) {
   const Icon = value === 1 ? ThumbsUp : ThumbsDown;
+  const label = value === 1 ? "Upvote" : "Downvote";
   return (
     <form action={`/api/answers/${answerId}/vote`} method="post">
       <input type="hidden" name="value" value={value} />
       <input type="hidden" name="redirectTo" value={redirectTo} />
-      <button className={`rounded-lg border border-border p-2 ${active ? "bg-accent text-white" : "bg-white text-muted hover:bg-slate-950 hover:text-white"}`}>
+      <button
+        className={`rounded-lg border border-border p-2 ${active ? "bg-accent text-white" : "bg-white text-muted hover:bg-slate-950 hover:text-white"}`}
+        aria-label={label}
+        title={label}
+      >
         <Icon className="h-4 w-4" />
       </button>
     </form>
