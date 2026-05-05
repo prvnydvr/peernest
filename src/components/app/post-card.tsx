@@ -106,11 +106,17 @@ export function PostCard({ post, redirectTo }: { post: PostCardData; redirectTo:
 function VoteButton({ postId, value, active, redirectTo }: { postId: string; value: 1 | -1; active: boolean; redirectTo: string }) {
   const Icon = value === 1 ? ThumbsUp : ThumbsDown;
 
+  const label = value === 1 ? "Upvote post" : "Downvote post";
+
   return (
     <form action={`/api/posts/${postId}/vote`} method="post">
       <input type="hidden" name="value" value={value} />
       <input type="hidden" name="redirectTo" value={redirectTo} />
-      <button className={`rounded-md p-2 ${active ? "bg-accent text-white shadow-sm" : "text-muted hover:bg-white hover:text-slate-950"}`}>
+      <button
+        aria-label={label}
+        title={label}
+        className={`rounded-md p-2 ${active ? "bg-accent text-white shadow-sm" : "text-muted hover:bg-white hover:text-slate-950"}`}
+      >
         <Icon className="h-4 w-4" />
       </button>
     </form>
