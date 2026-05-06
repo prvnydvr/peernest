@@ -12,8 +12,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     const formData = await request.formData();
     const { postId } = await params;
-    await toggleBookmark(user.id, postId);
-    return redirectTo(request, getString(formData, "redirectTo") || "/feed");
+    const isBookmarked = await toggleBookmark(user.id, postId);
+    return redirectTo(request, getString(formData, "redirectTo") || "/feed", { isBookmarked });
   } catch (error) {
     return handleApiError(error);
   }

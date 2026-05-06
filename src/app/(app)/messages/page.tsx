@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { MessageSquare, Send } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 import { Avatar } from "@/components/app/avatar";
 import { EmptyState } from "@/components/app/empty-state";
+import { MessageComposer } from "@/components/app/message-composer";
 import { requireUser } from "@/lib/auth";
 import { formatRelativeTime } from "@/lib/utils";
 import { getMessagesPageData } from "@/server/data";
@@ -86,17 +87,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
             />
           )}
         </div>
-        <form action="/api/messages" method="post" className="grid gap-3 border-t border-border pt-4">
-          {data.composeTarget ? <input type="hidden" name="recipientId" value={data.composeTarget.id} /> : null}
-          {data.activeConversation ? <input type="hidden" name="conversationId" value={data.activeConversation.id} /> : null}
-          <div className="grid gap-3 px-5 pb-5">
-            <textarea name="body" required rows={3} className="input-field" placeholder="Write a clear, useful message..." />
-            <button className="btn-primary w-fit">
-              <Send className="h-4 w-4" />
-              Send
-            </button>
-          </div>
-        </form>
+        <MessageComposer recipientId={data.composeTarget?.id} conversationId={data.activeConversation?.id} />
       </section>
     </div>
   );

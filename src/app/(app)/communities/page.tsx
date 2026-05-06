@@ -1,4 +1,5 @@
 import { CommunityCard } from "@/components/app/community-card";
+import { CreateCommunityForm } from "@/components/app/create-community-form";
 import { requireUser } from "@/lib/auth";
 import { getCommunitiesPageData } from "@/server/data";
 
@@ -20,21 +21,7 @@ export default async function CommunitiesPage() {
       </section>
       <aside className="panel h-fit p-5">
         <h2 className="text-xl font-semibold">Start a community</h2>
-        <form action="/api/communities" method="post" className="mt-5 grid gap-4">
-          <label className="grid gap-2 label-text">
-            Name
-            <input name="name" required minLength={3} maxLength={40} className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            Description
-            <textarea name="description" required minLength={24} maxLength={220} rows={4} className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            Color
-            <input name="topicColor" type="color" defaultValue="#0f766e" className="h-11 rounded-lg border border-border bg-white px-2" />
-          </label>
-          <button className="btn-primary">Create community</button>
-        </form>
+        <CreateCommunityForm />
       </aside>
     </div>
   );

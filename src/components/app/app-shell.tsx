@@ -1,20 +1,24 @@
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import { Suspense } from "react";
 
 import { Avatar } from "@/components/app/avatar";
 import { MobileNavLinks, NavLinks } from "@/components/app/nav-link";
 import type { AuthUser } from "@/lib/auth";
 import type { CommunitySummary } from "@/lib/view-models";
 
+type ShellData = {
+  sidebarCommunities: CommunitySummary[];
+  unreadNotifications: number;
+};
+
 export function AppShell({
   user,
-  communities,
-  unreadNotifications,
+  shell,
   children,
 }: {
   user: NonNullable<AuthUser>;
-  communities: CommunitySummary[];
-  unreadNotifications: number;
+  shell: Promise<ShellData>;
   children: React.ReactNode;
 }) {
   return (
@@ -35,7 +39,9 @@ export function AppShell({
               <Avatar name={user.name} imageUrl={user.avatarUrl} size="sm" />
             </Link>
           </div>
-          <MobileNavLinks unreadNotifications={unreadNotifications} />
+          <Suspense fallback={<MobileNavLinks unreadNotifications={0} />}>
+            <ShellNav shell={shell} mobile />
+          </Suspense>
         </header>
         <aside className="hidden lg:sticky lg:top-4 lg:block lg:h-[calc(100vh-2rem)]">
           <div className="panel relative overflow-hidden flex h-full flex-col p-3 border-white/40 bg-white/60 shadow-xl shadow-slate-200/50 backdrop-blur-3xl">
@@ -50,22 +56,18 @@ export function AppShell({
               </div>
             </Link>
             <div className="relative z-10">
-              <NavLinks unreadNotifications={unreadNotifications} />
+              <Suspense fallback={<NavLinks unreadNotifications={0} />}>
+                <ShellNav shell={shell} />
+              </Suspense>
             </div>
             <div className="relative z-10 mt-6 rounded-2xl border border-white/50 bg-white/40 p-3 backdrop-blur-md shadow-sm">
               <div className="flex items-center justify-between gap-2">
                 <p className="section-eyebrow">Communities</p>
                 <Link href="/communities" className="text-xs font-semibold text-accent">Browse</Link>
               </div>
-              <div className="mt-3 grid gap-2">
-                {communities.slice(0, 6).map((community) => (
-                  <Link key={community.id} href={`/communities/${community.slug}`} className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-slate-950 hover:shadow-sm">
-                    <span className="h-2.5 w-2.5 rounded-full shadow-sm" style={{ background: community.topicColor }} />
-                    <span className="truncate">{community.name}</span>
-                  </Link>
-                ))}
-                {!communities.length ? <p className="px-3 py-2 text-sm text-muted">Join a community to personalize your feed.</p> : null}
-              </div>
+              <Suspense fallback={<SidebarCommunitiesFallback />}>
+                <SidebarCommunities shell={shell} />
+              </Suspense>
             </div>
             <div className="relative z-10 mt-auto border-t border-white/40 pt-4">
               <Link href={`/profile/${user.username}`} className="flex items-center gap-3 rounded-2xl p-2 transition-all duration-300 hover:bg-white/80 hover:shadow-sm">
@@ -86,6 +88,37 @@ export function AppShell({
         </aside>
         <main className="min-w-0 max-w-full">{children}</main>
       </div>
+    </div>
+  );
+}
+
+async function ShellNav({ shell, mobile = false }: { shell: Promise<ShellData>; mobile?: boolean }) {
+  const { unreadNotifications } = await shell;
+  return mobile ? <MobileNavLinks unreadNotifications={unreadNotifications} /> : <NavLinks unreadNotifications={unreadNotifications} />;
+}
+
+async function SidebarCommunities({ shell }: { shell: Promise<ShellData> }) {
+  const { sidebarCommunities } = await shell;
+
+  return (
+    <div className="mt-3 grid gap-2">
+      {sidebarCommunities.slice(0, 6).map((community) => (
+        <Link key={community.id} href={`/communities/${community.slug}`} className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-slate-950 hover:shadow-sm">
+          <span className="h-2.5 w-2.5 rounded-full shadow-sm" style={{ background: community.topicColor }} />
+          <span className="truncate">{community.name}</span>
+        </Link>
+      ))}
+      {!sidebarCommunities.length ? <p className="px-3 py-2 text-sm text-muted">Join a community to personalize your feed.</p> : null}
+    </div>
+  );
+}
+
+function SidebarCommunitiesFallback() {
+  return (
+    <div className="mt-3 grid gap-2">
+      <div className="skeleton h-9 rounded-xl" />
+      <div className="skeleton h-9 rounded-xl" />
+      <div className="skeleton h-9 rounded-xl" />
     </div>
   );
 }

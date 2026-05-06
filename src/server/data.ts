@@ -221,10 +221,51 @@ export async function getAppShellData(userId: string) {
 }
 
 export async function getFeedPageData(userId: string, sort: "trending" | "latest") {
-  const joinedCommunities = await db.communityMembership.findMany({
+  const joinedCommunitiesPromise = db.communityMembership.findMany({
     where: { userId },
     select: { communityId: true },
   });
+  const suggestionsPromise = db.community.findMany({
+    where: {
+      memberships: {
+        none: { userId },
+      },
+    },
+    take: 4,
+    orderBy: {
+      memberships: {
+        _count: "desc",
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      topicColor: true,
+      description: true,
+      _count: {
+        select: {
+          memberships: true,
+          posts: true,
+          resources: true,
+        },
+      },
+    },
+  });
+  const contributorsPromise = db.user.findMany({
+    take: 4,
+    orderBy: { reputation: "desc" },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      avatarUrl: true,
+      college: true,
+      reputation: true,
+    },
+  });
+
+  const joinedCommunities = await joinedCommunitiesPromise;
   const joinedCommunityIds = joinedCommunities.map((item) => item.communityId);
 
   const [posts, suggestions, contributors] = await Promise.all([
@@ -266,45 +307,8 @@ export async function getFeedPageData(userId: string, sort: "trending" | "latest
         },
       },
     }),
-    db.community.findMany({
-      where: {
-        memberships: {
-          none: { userId },
-        },
-      },
-      take: 4,
-      orderBy: {
-        memberships: {
-          _count: "desc",
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        topicColor: true,
-        description: true,
-        _count: {
-          select: {
-            memberships: true,
-            posts: true,
-            resources: true,
-          },
-        },
-      },
-    }),
-    db.user.findMany({
-      take: 4,
-      orderBy: { reputation: "desc" },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        avatarUrl: true,
-        college: true,
-        reputation: true,
-      },
-    }),
+    suggestionsPromise,
+    contributorsPromise,
   ]);
 
   const postCards = posts.map((post) =>
@@ -566,7 +570,7 @@ export async function getPostThreadData(postId: string, userId: string) {
 }
 
 export async function getResourcesPageData(userId: string) {
-  const [resources, communities] = await Promise.all([
+  const [resources, communities, memberships] = await Promise.all([
     db.resource.findMany({
       orderBy: { createdAt: "desc" },
       include: {
@@ -602,6 +606,10 @@ export async function getResourcesPageData(userId: string) {
         description: true,
       },
     }),
+    db.communityMembership.findMany({
+      where: { userId },
+      select: { communityId: true },
+    }),
   ]);
 
   return {
@@ -609,14 +617,7 @@ export async function getResourcesPageData(userId: string) {
       mapResourceCard({ ...resource, kind: resource.kind as ResourceCardData["kind"] }),
     ),
     communities: communities.map(mapCommunitySummary),
-    canShareToCommunityIds: new Set(
-      (
-        await db.communityMembership.findMany({
-          where: { userId },
-          select: { communityId: true },
-        })
-      ).map((item) => item.communityId),
-    ),
+    canShareToCommunityIds: memberships.map((item) => item.communityId),
   };
 }
 

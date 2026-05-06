@@ -1,6 +1,6 @@
 # Supabase Setup
 
-PeerNest now uses Supabase for authentication and production data.
+PeerNest uses Supabase Postgres for production data and optional Supabase Storage for PDF uploads.
 
 ## 1. Create Supabase Project
 
@@ -17,6 +17,7 @@ Create `.env` from `.env.example` and set:
 
 ```bash
 DATABASE_URL="postgresql://postgres.PROJECT_REF:PASSWORD@aws-0-region.pooler.supabase.com:6543/postgres?pgbouncer=true"
+DATABASE_POOL_MAX="4"
 APP_URL="http://localhost:3000"
 JWT_SECRET="any-32-character-minimum-string"
 NEXT_PUBLIC_SUPABASE_URL="https://PROJECT_REF.supabase.co"
@@ -51,19 +52,7 @@ leo@peernest.dev / Password123!
 
 ## 4. Auth
 
-Email/password works through Supabase Auth.
-
-For Google login, enable Google under Supabase Dashboard -> Authentication -> Providers and add this callback URL:
-
-```text
-http://localhost:3000/api/auth/google/callback
-```
-
-For production, add:
-
-```text
-https://your-domain.com/api/auth/google/callback
-```
+Email/password uses PeerNest-managed password hashes and a secure HTTP-only session cookie. Google sign-in is intentionally disabled in the current MVP until the OAuth provider is fully configured and tested.
 
 ## 5. Resource PDFs
 

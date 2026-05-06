@@ -1,6 +1,8 @@
-import { Bell, Save } from "lucide-react";
+import { Bell } from "lucide-react";
 
 import { EmptyState } from "@/components/app/empty-state";
+import { MarkNotificationsReadButton } from "@/components/app/mark-notifications-read-button";
+import { ProfileSettingsForm } from "@/components/app/profile-settings-form";
 import { requireUser } from "@/lib/auth";
 import { getSettingsPageData } from "@/server/data";
 import { formatRelativeTime } from "@/lib/utils";
@@ -15,32 +17,7 @@ export default async function SettingsPage() {
         <p className="section-eyebrow">Account</p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">Settings</h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">Keep your student profile accurate so classmates know what you study and where you can help.</p>
-        <form action="/api/profile" method="post" className="mt-6 grid gap-4">
-          <label className="grid gap-2 label-text">
-            Name
-            <input name="name" defaultValue={user.name} required className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            College
-            <input name="college" defaultValue={user.college ?? ""} required className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            Bio
-            <textarea name="bio" defaultValue={user.bio ?? ""} rows={4} maxLength={280} className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            Interests
-            <input name="interests" defaultValue={user.interests.join(", ")} className="input-field" />
-          </label>
-          <label className="grid gap-2 label-text">
-            Skills
-            <input name="skills" defaultValue={user.skills.join(", ")} className="input-field" />
-          </label>
-          <button className="btn-primary w-fit">
-            <Save className="h-4 w-4" />
-            Save profile
-          </button>
-        </form>
+        <ProfileSettingsForm user={user} />
       </section>
       <aside className="panel h-fit p-5">
         <div className="flex items-center justify-between gap-3">
@@ -48,9 +25,7 @@ export default async function SettingsPage() {
             <p className="section-eyebrow">Updates</p>
             <h2 className="mt-1 text-xl font-semibold">Notifications</h2>
           </div>
-          <form action="/api/notifications/read" method="post">
-            <button className="text-sm font-semibold text-accent hover:text-accent-strong">Mark read</button>
-          </form>
+          <MarkNotificationsReadButton />
         </div>
         <div className="mt-4 grid gap-3">
           {notifications.length ? notifications.map((notification) => (

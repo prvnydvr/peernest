@@ -1,15 +1,11 @@
-import { handleApiError } from "@/lib/api";
-import { createGoogleAuthorizationUrl } from "@/lib/auth";
+import { NextResponse, type NextRequest } from "next/server";
 
-export async function GET() {
-  try {
-    const url = await createGoogleAuthorizationUrl();
-    return Response.redirect(url.toString(), 302);
-  } catch (error) {
-    return handleApiError(error);
-  }
+export async function GET(request: NextRequest) {
+  const url = new URL("/sign-in", request.url);
+  url.searchParams.set("notice", "google-disabled");
+  return NextResponse.redirect(url, 303);
 }
 
-export async function POST() {
-  return GET();
+export async function POST(request: NextRequest) {
+  return GET(request);
 }

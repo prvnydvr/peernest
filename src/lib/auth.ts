@@ -4,7 +4,7 @@ import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
 import { compare, hash } from "bcryptjs";
 
 import { db } from "@/lib/db";
-import { getBaseUrl, hasSupabaseConfig } from "@/lib/env";
+import { hasSupabaseConfig } from "@/lib/env";
 import { AppError } from "@/lib/api";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { clearSessionCookie, readSessionCookie, setSessionCookie, verifySessionToken } from "@/lib/session";
@@ -182,46 +182,6 @@ export async function signOutUser() {
 
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
-}
-
-export async function createGoogleAuthorizationUrl() {
-  if (!hasSupabaseConfig()) {
-    throw new AppError("Supabase is not configured yet.", 503);
-  }
-
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${getBaseUrl()}/api/auth/google/callback`,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  });
-
-  if (error || !data.url) {
-    throw new AppError(error?.message ?? "Unable to start Google sign in.", 503);
-  }
-
-  return data.url;
-}
-
-export async function resolveGoogleCallback(code: string) {
-  if (!hasSupabaseConfig()) {
-    throw new AppError("Supabase is not configured yet.", 503);
-  }
-
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-
-  if (error || !data.user) {
-    throw new AppError(error?.message ?? "Google login could not be validated.", 400);
-  }
-
-  await ensureAppUser(data.user);
-  return data.user;
 }
 
 export async function generateUniqueUsername(source: string) {

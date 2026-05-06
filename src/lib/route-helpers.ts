@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ZodError, type ZodType } from "zod";
 
-import { apiError, getRequestFingerprint } from "@/lib/api";
+import { apiError, apiSuccess, getRequestFingerprint } from "@/lib/api";
 import { getCurrentUser } from "@/lib/auth";
 import { enforceRateLimit } from "@/lib/rate-limit";
 
@@ -15,7 +15,15 @@ export async function requireApiUser() {
   return { user, response: null };
 }
 
-export function redirectTo(request: NextRequest, path: string) {
+export function wantsMutationJson(request: NextRequest) {
+  return request.headers.get("accept")?.includes("application/json") || request.headers.get("x-peernest-mutation") === "1";
+}
+
+export function redirectTo(request: NextRequest, path: string, data: Record<string, unknown> = {}) {
+  if (wantsMutationJson(request)) {
+    return apiSuccess({ redirectTo: path, ...data });
+  }
+
   return NextResponse.redirect(new URL(path, request.url), 303);
 }
 

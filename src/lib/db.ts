@@ -7,8 +7,10 @@ declare global {
 }
 
 function createPrismaClient() {
+  const env = getServerEnv();
+
   return new PrismaClient({
-    adapter: new PrismaPg({ connectionString: getServerEnv().DATABASE_URL, max: 1 }),
+    adapter: new PrismaPg({ connectionString: env.DATABASE_URL, max: env.DATABASE_POOL_MAX }),
   });
 }
 

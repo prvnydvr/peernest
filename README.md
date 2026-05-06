@@ -5,9 +5,8 @@ PeerNest is a student-to-student collaboration MVP for doubts, answers, communit
 ## Tech stack
 
 - Next.js App Router, React, TypeScript, Tailwind CSS
-- Supabase Auth for email/password and Google login
+- Email/password auth with secure HTTP-only PeerNest sessions
 - Prisma ORM on Supabase Postgres for posts, answers, votes, resources, bookmarks, communities, profiles, and messages
-- Supabase SSR cookies for authenticated server rendering
 - Supabase Storage for PDF resource uploads
 - Zod validation and simple in-memory rate limiting
 
@@ -63,6 +62,7 @@ See `.env.example`.
 Required:
 
 - `DATABASE_URL`
+- `DATABASE_POOL_MAX`
 - `APP_URL`
 - `JWT_SECRET`
 - `NEXT_PUBLIC_SUPABASE_URL`
@@ -103,6 +103,7 @@ Recommended free-tier path:
 3. Import the GitHub repo into Vercel.
 4. Add environment variables in Vercel:
    - `DATABASE_URL`
+   - `DATABASE_POOL_MAX=4`
    - `APP_URL=https://your-vercel-domain.vercel.app`
    - `JWT_SECRET`
    - `NEXT_PUBLIC_SUPABASE_URL`
@@ -113,11 +114,14 @@ Recommended free-tier path:
 ```bash
 npm run db:push
 npm run db:seed
+npm run db:seed:starter
 ```
 
 6. Deploy on Vercel.
 
 For PDF uploads, create a public Supabase Storage bucket named `resources`.
+
+Google sign-in is intentionally disabled in the current MVP until the OAuth provider is fully configured and tested.
 
 ## GitHub push commands
 

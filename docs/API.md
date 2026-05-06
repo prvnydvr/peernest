@@ -9,8 +9,8 @@ All mutation endpoints accept `multipart/form-data` from the built-in forms. Aut
 | `POST` | `/api/auth/sign-up` | `name`, `username`, `email`, `password`, `college`, optional `bio`, `interests`, `skills` | Creates account, sets session cookie, redirects to `/feed` |
 | `POST` | `/api/auth/sign-in` | `email`, `password` | Sets session cookie, redirects to `/feed` |
 | `POST` | `/api/auth/sign-out` | none | Clears session cookie |
-| `GET` | `/api/auth/google` | none | Starts Google OAuth when configured |
-| `GET` | `/api/auth/google/callback` | `code`, `state` query params | Resolves OAuth account and signs in |
+| `GET` | `/api/auth/google` | none | Redirects to sign-in with a disabled notice |
+| `GET` | `/api/auth/google/callback` | none | Redirects to sign-in with a disabled notice |
 
 ## Posts and answers
 

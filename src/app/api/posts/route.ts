@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     });
 
     const post = await createPost({ userId: user.id, ...payload });
-    return redirectTo(request, post.community?.slug ? `/communities/${post.community.slug}` : "/feed");
+    return redirectTo(request, post.community?.slug ? `/communities/${post.community.slug}` : "/feed", { postId: post.id });
   } catch (error) {
     return handleApiError(error);
   }

@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, GraduationCap, Sparkles, UsersRound } from "lucide-react";
 
-import { hasSupabaseConfig } from "@/lib/env";
-
 const interestOptions = ["DSA", "Engineering", "AI", "Startups", "Design", "Research"];
 
 export default function SignUpPage() {
-  const supabaseReady = hasSupabaseConfig();
-
   return (
     <main className="auth-shell">
       <section className="auth-card grid lg:grid-cols-[420px_1fr]">
@@ -133,14 +129,9 @@ export default function SignUpPage() {
             </div>
           </form>
 
-          <div className="mt-5 grid gap-3">
-            <a href="/api/auth/google" aria-disabled={!supabaseReady} className={`btn-secondary w-full ${supabaseReady ? "" : "pointer-events-none opacity-50"}`}>
-              Continue with Google
-            </a>
-            <div className="flex items-center justify-center gap-2 text-xs text-muted">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-              Email signup works instantly. Google sign-in uses Supabase OAuth when the provider is configured.
-            </div>
+          <div className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-center text-xs text-muted">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            Email signup is active. Google sign-in is paused until OAuth is ready.
           </div>
         </div>
       </section>

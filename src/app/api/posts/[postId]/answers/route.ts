@@ -15,8 +15,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const payload = answerCreateSchema.parse({ content: getString(formData, "content") });
     const { postId } = await params;
 
-    await createAnswer({ userId: user.id, postId, content: payload.content });
-    return redirectTo(request, `/posts/${postId}`);
+    const answer = await createAnswer({ userId: user.id, postId, content: payload.content });
+    return redirectTo(request, `/posts/${postId}`, { answerId: answer.id });
   } catch (error) {
     return handleApiError(error);
   }

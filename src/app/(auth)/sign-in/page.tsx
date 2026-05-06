@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, MessageSquare, Search, UsersRound } from "lucide-react";
 
-import { hasSupabaseConfig } from "@/lib/env";
-
-export default async function SignInPage({ searchParams }: { searchParams: Promise<{ next?: string; notice?: string }> }) {
+export default async function SignInPage({ searchParams }: { searchParams: Promise<{ next?: string; notice?: string; error?: string }> }) {
   const params = await searchParams;
   const next = params.next ? `?next=${encodeURIComponent(params.next)}` : "";
 
@@ -49,6 +47,16 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
               Check your email to confirm your Supabase account, then sign in.
             </p>
           ) : null}
+          {params.notice === "google-disabled" ? (
+            <p className="mt-4 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
+              Google sign-in is paused for now. Use email and password to continue.
+            </p>
+          ) : null}
+          {params.error ? (
+            <p className="mt-4 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
+              {params.error}
+            </p>
+          ) : null}
           <SignInForm action={`/api/auth/sign-in${next}`} />
         </div>
       </section>
@@ -57,8 +65,6 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
 }
 
 async function SignInForm({ action }: { action: string }) {
-  const supabaseReady = hasSupabaseConfig();
-
   return (
     <>
       <form action={action} method="post" className="mt-7 grid gap-4">
@@ -75,20 +81,12 @@ async function SignInForm({ action }: { action: string }) {
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
-      <div className="my-5 flex items-center gap-3 text-xs text-muted">
-        <span className="h-px flex-1 bg-border" />
-        or
-        <span className="h-px flex-1 bg-border" />
-      </div>
-      <a href="/api/auth/google" aria-disabled={!supabaseReady} className={`btn-secondary w-full ${supabaseReady ? "" : "pointer-events-none opacity-50"}`}>
-        Continue with Google
-      </a>
       <p className="mt-6 text-center text-sm text-muted">
         New here? <Link href="/sign-up" className="font-semibold text-accent">Create an account</Link>
       </p>
       <p className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-center text-xs text-muted">
         <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-        {supabaseReady ? "Email/password uses your PeerNest account. Google sign-in uses Supabase OAuth." : "Local demo login: ava@peernest.dev / Password123!"}
+        Email/password is active. Google sign-in is intentionally hidden until the OAuth provider is ready.
       </p>
     </>
   );

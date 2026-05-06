@@ -5,6 +5,7 @@ import { PostCard } from "@/components/app/post-card";
 import { ResourceCard } from "@/components/app/resource-card";
 import { Avatar } from "@/components/app/avatar";
 import { EmptyState } from "@/components/app/empty-state";
+import { JoinCommunityButton } from "@/components/app/join-community-button";
 import { requireUser } from "@/lib/auth";
 import { getCommunityPageData } from "@/server/data";
 
@@ -27,13 +28,7 @@ export default async function CommunityPage({ params }: { params: Promise<{ slug
               <span>{data.community.resourceCount ?? 0} resources</span>
             </div>
           </div>
-          {data.community.isJoined ? (
-            <Link href="/ask" className="btn-primary">Post here</Link>
-          ) : (
-            <form action={`/api/communities/${slug}/join`} method="post">
-              <button className="btn-primary">Join community</button>
-            </form>
-          )}
+          <JoinCommunityButton slug={slug} initialJoined={Boolean(data.community.isJoined)} />
         </div>
         <div className="mt-6 flex items-center gap-3 border-t border-border pt-5">
           <Avatar name={data.creator.name} imageUrl={data.creator.avatarUrl} size="sm" />

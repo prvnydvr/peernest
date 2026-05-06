@@ -16,6 +16,7 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
+    "db:seed:starter": "tsx prisma/seed-starter.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"
   },
@@ -24,7 +25,6 @@
     "@prisma/client": "^7.8.0",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.1",
-    "arctic": "^3.7.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
