@@ -35,7 +35,7 @@ export function AppShell({
                 <p className="truncate text-xs text-muted">Study with peers</p>
               </div>
             </Link>
-            <Link href={`/profile/${user.username}`} className="shrink-0">
+            <Link href={`/profile/${user.username}`} className="shrink-0" aria-label="Your profile">
               <Avatar name={user.name} imageUrl={user.avatarUrl} size="sm" />
             </Link>
           </div>
