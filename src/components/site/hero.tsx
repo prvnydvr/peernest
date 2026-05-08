@@ -109,7 +109,7 @@ export function Hero() {
               className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3"
             >
               <Link
-                href="#cta"
+                href="/sign-up?notice=early-access"
                 className="group relative inline-flex items-center gap-2 rounded-full bg-foreground text-background pl-5 pr-4 py-3 text-[13.5px] font-medium tracking-[-0.005em] overflow-hidden transition-all duration-300 hover:-translate-y-0.5 shadow-[0_18px_40px_-14px_rgba(76,29,149,0.55),0_4px_12px_-4px_rgba(0,0,0,0.15)]"
               >
                 {/* Inner glow on hover */}

@@ -3,20 +3,31 @@
 import { motion } from "motion/react"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Aurora } from "./visual/aurora"
 import { Constellation } from "./visual/constellation"
 import { GridField } from "./visual/grid-field"
 import { SignatureMark } from "./visual/signature-mark"
 
 export function FinalCTA() {
+  const router = useRouter()
   const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [focused, setFocused] = useState(false)
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) return
-    setSubmitted(true)
+    const normalizedEmail = email.trim().toLowerCase()
+    if (!normalizedEmail) return
+
+    setSubmitting(true)
+    try {
+      window.localStorage.setItem("peernest_early_access_email", normalizedEmail)
+    } catch {
+      // Local storage can be blocked; the signup URL still carries the email.
+    }
+
+    router.push(`/sign-up?notice=early-access&email=${encodeURIComponent(normalizedEmail)}`)
   }
 
   return (
@@ -152,13 +163,13 @@ export function FinalCTA() {
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder="you@university.edu"
-                disabled={submitted}
+                disabled={submitting}
                 className="flex-1 bg-transparent text-[15px] tracking-[-0.005em] py-3 placeholder:text-muted-foreground/70 focus:outline-none disabled:opacity-60"
               />
 
               <button
                 type="submit"
-                disabled={submitted}
+                disabled={submitting}
                 className="group/btn relative inline-flex items-center gap-2 rounded-full px-5 py-3 text-[13.5px] font-medium tracking-[-0.005em] text-primary-foreground overflow-hidden disabled:opacity-90"
               >
                 {/* conic spin */}
@@ -181,14 +192,14 @@ export function FinalCTA() {
                 {/* dark inner pill so we keep contrast */}
                 <span className="absolute inset-[2px] rounded-full bg-foreground" />
                 <span className="relative z-10 inline-flex items-center gap-2">
-                  {submitted ? (
+                  {submitting ? (
                     <>
                       <CheckCircle2 className="h-4 w-4" />
-                      You&apos;re in
+                      Opening signup
                     </>
                   ) : (
                     <>
-                      Request access
+                      Get early access
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                     </>
                   )}

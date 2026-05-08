@@ -3,7 +3,14 @@ import { ArrowRight, CheckCircle2, GraduationCap, Sparkles, UsersRound } from "l
 
 const interestOptions = ["DSA", "Engineering", "AI", "Startups", "Design", "Research"];
 
-export default function SignUpPage() {
+export default async function SignUpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string; notice?: string }>;
+}) {
+  const params = await searchParams;
+  const earlyAccessEmail = params.email?.trim() ?? "";
+
   return (
     <main className="auth-shell">
       <section className="auth-card grid lg:grid-cols-[420px_1fr]">
@@ -40,6 +47,13 @@ export default function SignUpPage() {
             <Link href="/sign-in" className="btn-secondary">Sign in</Link>
           </div>
 
+          {params.notice === "early-access" ? (
+            <div className="mb-5 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-800">
+              <span className="font-semibold">Early access is ready.</span>{" "}
+              Create your PeerNest profile and you can enter the app immediately.
+            </div>
+          ) : null}
+
           <form action="/api/auth/sign-up" method="post" className="grid gap-5">
             <section className="form-section">
               <div className="mb-4 flex items-center gap-2">
@@ -58,7 +72,7 @@ export default function SignUpPage() {
                 </label>
                 <label className="grid gap-2 label-text">
                   Email
-                  <input name="email" type="email" required className="input-field" placeholder="you@college.edu" />
+                  <input name="email" type="email" required defaultValue={earlyAccessEmail} className="input-field" placeholder="you@college.edu" />
                 </label>
                 <label className="grid gap-2 label-text">
                   Password

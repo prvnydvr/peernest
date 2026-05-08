@@ -11,7 +11,7 @@ const links = [
   { label: "Product", href: "#features" },
   { label: "Showcase", href: "#showcase" },
   { label: "Community", href: "#testimonials" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Access", href: "#cta" },
 ]
 
 export function FloatingNav() {
@@ -57,7 +57,7 @@ export function FloatingNav() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="#login"
+            href="/sign-in"
             className="hidden sm:inline-flex text-[13px] font-medium tracking-[-0.005em] text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5"
           >
             Log in
@@ -98,6 +98,22 @@ export function FloatingNav() {
                   {l.label}
                 </Link>
               ))}
+              <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border/60 pt-3">
+                <Link
+                  href="/sign-in"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-center text-sm font-medium text-foreground/80 hover:bg-foreground/5"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="#cta"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg bg-foreground px-3 py-2.5 text-center text-sm font-medium text-background"
+                >
+                  Early access
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
