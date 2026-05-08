@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
   --background: #fafafa;
@@ -13,6 +14,35 @@
   --surface-soft: rgba(255, 255, 255, 0.5);
 }
 
+.landing-page {
+  --background: #fbfaf6;
+  --foreground: #191326;
+  --card: rgba(255, 255, 255, 0.78);
+  --card-foreground: #191326;
+  --popover: #ffffff;
+  --popover-foreground: #191326;
+  --primary: #6d28d9;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f1ea;
+  --secondary-foreground: #20172f;
+  --muted: #f1ede6;
+  --muted-foreground: #6b6475;
+  --accent: #ece4ff;
+  --accent-foreground: #4c1d95;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(25, 19, 38, 0.12);
+  --input: rgba(25, 19, 38, 0.14);
+  --ring: #6d28d9;
+  --radius: 0.875rem;
+}
+
+.landing-page [style*="opacity: 0"],
+.landing-page [style*="opacity:0"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,10 +52,22 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-soft: var(--surface-soft);
   --font-sans: var(--font-plus-jakarta);
   --font-display: var(--font-space-grotesk);
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 .dark {
@@ -209,5 +251,526 @@ body {
       radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.7), transparent 16%),
       radial-gradient(circle at 80% 30%, rgba(0, 132, 255, 0.24), transparent 20%),
       radial-gradient(circle at 50% 80%, rgba(15, 23, 42, 0.18), transparent 24%);
+  }
+}
+
+/* Imported landing page utilities from PeerNest frontend. */
+@layer utilities {
+  .text-caption {
+    font-size: 12px;
+    line-height: 1.5;
+    color: oklch(from var(--muted-foreground) l c h);
+  }
+
+  /* Metadata — small structured info, often mono */
+  .text-meta {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: oklch(from var(--muted-foreground) l c h);
+  }
+
+  /* Body rhythm helpers */
+  .body-lead {
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    max-width: 42ch;
+    text-wrap: pretty;
+  }
+  .body-base {
+    font-size: 15.5px;
+    line-height: 1.7;
+    max-width: 48ch;
+    text-wrap: pretty;
+  }
+
+  /* Force-feed editorial OpenType alts on a span (used for italic serif) */
+  .editorial-alt {
+    font-feature-settings: "salt", "ss01", "ss03";
+  }
+
+  /* ============================================================
+     CINEMATIC TYPOGRAPHY — Oversized display moments
+     Creates visual tension between quiet body and dramatic headers.
+     ============================================================ */
+
+  /* Display — for hero-scale statements ("The internet campus") */
+  .text-display {
+    font-size: clamp(52px, 9.2vw, 108px);
+    line-height: 0.88;
+    letter-spacing: -0.048em;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  /* Dramatic — for section-scale headlines ("Built for builders") */
+  .text-dramatic {
+    font-size: clamp(38px, 6.8vw, 82px);
+    line-height: 0.94;
+    letter-spacing: -0.042em;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  /* Quiet — for gentle section intros */
+  .text-quiet {
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.55;
+    letter-spacing: -0.008em;
+    font-weight: 400;
+    max-width: 50ch;
+  }
+
+  /* ============================================================
+     ATMOSPHERE — Depth textures
+     ============================================================ */
+
+  /* Subtle animated gradient mesh */
+  .bg-mesh {
+    background-image:
+      radial-gradient(at 20% 10%, oklch(0.85 0.12 285 / 0.45) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, oklch(0.88 0.08 270 / 0.35) 0px, transparent 50%),
+      radial-gradient(at 0% 80%, oklch(0.9 0.06 295 / 0.3) 0px, transparent 50%),
+      radial-gradient(at 90% 90%, oklch(0.92 0.05 280 / 0.35) 0px, transparent 50%);
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, oklch(0.18 0.015 280 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.18 0.015 280 / 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Ultra-subtle paper noise — premium editorial texture */
+  .bg-noise-paper {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Atmospheric gradient fog — section transitions */
+  .fog-top {
+    background: linear-gradient(to bottom,
+      oklch(0.985 0.004 95 / 0.95) 0%,
+      oklch(0.985 0.004 95 / 0) 100%);
+  }
+  .fog-bottom {
+    background: linear-gradient(to top,
+      oklch(0.985 0.004 95 / 0.95) 0%,
+      oklch(0.985 0.004 95 / 0) 100%);
+  }
+
+  /* Ambient glow for immersive sections */
+  .glow-ambient {
+    background: radial-gradient(
+      ellipse 70% 50% at 50% 50%,
+      oklch(0.7 0.14 285 / 0.12),
+      transparent 70%
+    );
+  }
+
+  /* Soft floating animation */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-10px) translateX(4px); }
+  }
+  .animate-float-slow {
+    animation: float-slow 8s ease-in-out infinite;
+  }
+
+  @keyframes float-slower {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-14px) translateX(-6px); }
+  }
+  .animate-float-slower {
+    animation: float-slower 11s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .animate-shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 0.2; }
+    100% { transform: scale(0.95); opacity: 0.5; }
+  }
+  .animate-pulse-ring {
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+
+  /* Typing indicator dots */
+  @keyframes typing-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40% { transform: translateY(-3px); opacity: 1; }
+  }
+  .animate-typing-dot {
+    animation: typing-bounce 1.2s ease-in-out infinite;
+  }
+
+  /* Notification slide in / loop */
+  @keyframes notif-loop {
+    0% { transform: translateY(8px) scale(0.96); opacity: 0; }
+    8% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(0) scale(1); opacity: 1; }
+    58% { transform: translateY(-6px) scale(0.98); opacity: 0; }
+    100% { transform: translateY(8px) scale(0.96); opacity: 0; }
+  }
+  .animate-notif-loop {
+    animation: notif-loop 6s ease-in-out infinite;
+  }
+
+  /* Animated cursor drift */
+  @keyframes cursor-drift {
+    0%, 100% { transform: translate(0px, 0px); }
+    25% { transform: translate(8px, -6px); }
+    50% { transform: translate(14px, 4px); }
+    75% { transform: translate(4px, 10px); }
+  }
+  .animate-cursor-drift {
+    animation: cursor-drift 7s ease-in-out infinite;
+  }
+
+  @keyframes cursor-drift-2 {
+    0%, 100% { transform: translate(0px, 0px); }
+    33% { transform: translate(-10px, 6px); }
+    66% { transform: translate(6px, -8px); }
+  }
+  .animate-cursor-drift-2 {
+    animation: cursor-drift-2 9s ease-in-out infinite;
+  }
+
+  /* Live count tick */
+  @keyframes count-tick {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    45% { transform: translateY(-100%); opacity: 0; }
+    55% { transform: translateY(100%); opacity: 0; }
+  }
+  .animate-count-tick {
+    animation: count-tick 5s ease-in-out infinite;
+  }
+
+  /* Soft caret blink */
+  @keyframes caret-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  .animate-caret {
+    animation: caret-blink 1s steps(2) infinite;
+  }
+
+  /* Reaction float up */
+  @keyframes reaction-up {
+    0% { transform: translateY(0) scale(0.7); opacity: 0; }
+    20% { transform: translateY(-6px) scale(1); opacity: 1; }
+    80% { transform: translateY(-32px) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-44px) scale(0.9); opacity: 0; }
+  }
+  .animate-reaction-up {
+    animation: reaction-up 4s ease-out infinite;
+  }
+
+  /* Sparkline stroke draw + breathe */
+  @keyframes spark-breathe {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.04); }
+  }
+  .animate-spark-breathe {
+    transform-origin: bottom;
+    animation: spark-breathe 4s ease-in-out infinite;
+  }
+
+  /* Subtle inner highlight sweep */
+  @keyframes sheen {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(220%); }
+  }
+  .animate-sheen {
+    animation: sheen 6s ease-in-out infinite;
+  }
+
+  /* Horizontal marquee */
+  @keyframes marquee-x {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+  .animate-marquee {
+    animation: marquee-x 38s linear infinite;
+    will-change: transform;
+  }
+  @keyframes marquee-x-reverse {
+    0% { transform: translate3d(-50%, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+  }
+  .animate-marquee-reverse {
+    animation: marquee-x-reverse 46s linear infinite;
+    will-change: transform;
+  }
+
+  /* Edge fade mask for marquee bands */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+  }
+
+  /* Faint vertical grid for stats band */
+  .bg-stat-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in oklch, currentColor 8%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklch, currentColor 6%, transparent) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px;
+  }
+
+  /* ============================================================
+     PEERNEST SIGNATURE VISUAL LANGUAGE
+     - Aurora orbs (ambient lighting)
+     - Constellation node network (collaborative graph)
+     - Soft dot field (intelligent grid)
+     ============================================================ */
+
+  /* Subtle dot constellation field — replaces generic line grids */
+  .bg-constellation {
+    background-image:
+      radial-gradient(circle at 1px 1px,
+        oklch(0.52 0.22 280 / 0.12) 1px,
+        transparent 1.5px);
+    background-size: 28px 28px;
+  }
+  .bg-constellation-lg {
+    background-image:
+      radial-gradient(circle at 1px 1px,
+        oklch(0.52 0.22 280 / 0.18) 1.2px,
+        transparent 1.8px);
+    background-size: 44px 44px;
+  }
+
+  /* Aurora drifts — three differently-timed orbs */
+  @keyframes aurora-drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(40px, -30px, 0) scale(1.08); }
+    66%      { transform: translate3d(-20px, 20px, 0) scale(0.96); }
+  }
+  @keyframes aurora-drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(-50px, 30px, 0) scale(1.1); }
+  }
+  @keyframes aurora-drift-c {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    40%      { transform: translate3d(30px, 25px, 0) scale(0.94); }
+    80%      { transform: translate3d(-25px, -15px, 0) scale(1.06); }
+  }
+  .animate-aurora-a { animation: aurora-drift-a 18s ease-in-out infinite; }
+  .animate-aurora-b { animation: aurora-drift-b 22s ease-in-out infinite; }
+  .animate-aurora-c { animation: aurora-drift-c 26s ease-in-out infinite; }
+
+  /* Aurora hue cycle — very subtle warmth shift */
+  @keyframes aurora-hue {
+    0%, 100% { filter: blur(80px) hue-rotate(0deg); }
+    50%      { filter: blur(80px) hue-rotate(-12deg); }
+  }
+  .animate-aurora-hue { animation: aurora-hue 24s ease-in-out infinite; }
+
+  /* Constellation node twinkle */
+  @keyframes node-twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50%      { opacity: 1;    transform: scale(1.15); }
+  }
+  .animate-node-twinkle {
+    animation: node-twinkle 3.6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  /* Constellation line draw (stroke-dashoffset) */
+  @keyframes line-breathe {
+    0%, 100% { stroke-dashoffset: 0; opacity: 0.5; }
+    50%      { stroke-dashoffset: -12; opacity: 0.85; }
+  }
+  .animate-line-breathe {
+    stroke-dasharray: 6 4;
+    animation: line-breathe 6s linear infinite;
+  }
+
+  /* Signal pulse traveling along a path (used with offset-path) */
+  @keyframes signal-flow {
+    0%   { offset-distance: 0%;   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  .signal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: oklch(0.65 0.22 280);
+    box-shadow:
+      0 0 8px 1px oklch(0.65 0.22 280 / 0.6),
+      0 0 18px 4px oklch(0.65 0.22 280 / 0.25);
+    offset-rotate: 0deg;
+    animation: signal-flow 5.5s linear infinite;
+  }
+
+  /* Slow rotation for orbiting elements */
+  @keyframes orbit-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .animate-orbit-slow { animation: orbit-slow 60s linear infinite; }
+  .animate-orbit-reverse { animation: orbit-slow 80s linear infinite reverse; }
+
+  /* Signature mark twinkle (3-node glyph) */
+  @keyframes mark-pulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+  }
+  .animate-mark-pulse { animation: mark-pulse 2.4s ease-in-out infinite; }
+
+  /* ===== Cinematic hero motion ===== */
+
+  /* Vertical activity ticker — items rise and exit */
+  @keyframes activity-tick {
+    0%   { transform: translateY(0%); }
+    24%  { transform: translateY(0%); }
+    33%  { transform: translateY(-25%); }
+    57%  { transform: translateY(-25%); }
+    66%  { transform: translateY(-50%); }
+    90%  { transform: translateY(-50%); }
+    100% { transform: translateY(-75%); }
+  }
+  .animate-activity-tick {
+    animation: activity-tick 16s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  /* Soft glow pulse for cinematic accents */
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; filter: blur(40px); }
+    50%      { opacity: 1;   filter: blur(56px); }
+  }
+  .animate-glow-pulse { animation: glow-pulse 6s ease-in-out infinite; }
+
+  /* Slow gradient shift (CTA buttons / primary glow) */
+  @keyframes hue-drift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50%      { filter: hue-rotate(-18deg); }
+  }
+  .animate-hue-drift { animation: hue-drift 12s ease-in-out infinite; }
+
+  /* Joining-now ping rises through the stage */
+  @keyframes ping-rise {
+    0%   { transform: translateY(20px) scale(0.92); opacity: 0; }
+    14%  { transform: translateY(0) scale(1);       opacity: 1; }
+    72%  { transform: translateY(0) scale(1);       opacity: 1; }
+    86%  { transform: translateY(-12px) scale(0.96); opacity: 0; }
+    100% { transform: translateY(-12px) scale(0.96); opacity: 0; }
+  }
+  .animate-ping-rise {
+    animation: ping-rise 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  /* Cursor cluster — soft floating motion */
+  @keyframes drift-a {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(10px, -8px); }
+  }
+  @keyframes drift-b {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(-12px, 10px); }
+  }
+  .animate-drift-a { animation: drift-a 9s ease-in-out infinite; }
+  .animate-drift-b { animation: drift-b 11s ease-in-out infinite; }
+
+  /* Soft pulse for live dots */
+  @keyframes live-dot {
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.7 0.18 145 / 0.55); }
+    50%      { box-shadow: 0 0 0 6px oklch(0.7 0.18 145 / 0); }
+  }
+  .animate-live-dot {
+    animation: live-dot 2.4s ease-out infinite;
+  }
+
+  /* ===== Finale (CTA + Footer) cinematic motion ===== */
+
+  /* Massive wordmark slow gradient pan — used in footer hero wordmark */
+  @keyframes wordmark-shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animate-wordmark-shimmer {
+    background-size: 200% 100%;
+    animation: wordmark-shimmer 14s ease-in-out infinite;
+  }
+
+  /* Live join feed item enter/exit (rotates through 3 items every 12s) */
+  @keyframes join-feed {
+    0%, 28%   { transform: translateY(0%); }
+    33%, 61%  { transform: translateY(-100%); }
+    66%, 94%  { transform: translateY(-200%); }
+    100%      { transform: translateY(-300%); }
+  }
+  .animate-join-feed {
+    animation: join-feed 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  /* CTA button conic glow rotation */
+  @keyframes conic-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .animate-conic-spin {
+    animation: conic-spin 6s linear infinite;
+  }
+
+  /* Soft ambient breathe — for the ring around the CTA */
+  @keyframes ambient-breathe {
+    0%, 100% { transform: scale(1);    opacity: 0.55; }
+    50%      { transform: scale(1.06); opacity: 0.85; }
+  }
+  .animate-ambient-breathe {
+    animation: ambient-breathe 5s ease-in-out infinite;
+  }
+
+  /* ===== Cinematic scroll reveal ===== */
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-reveal-up {
+    animation: reveal-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Subtle gradient line separator with glow */
+  .line-glow {
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent 0%,
+      oklch(0.52 0.22 280 / 0.3) 20%,
+      oklch(0.52 0.22 280 / 0.5) 50%,
+      oklch(0.52 0.22 280 / 0.3) 80%,
+      transparent 100%);
+    box-shadow: 0 0 12px 1px oklch(0.52 0.22 280 / 0.15);
+  }
+
+  /* Slow cinematic scale — for immersive section backgrounds */
+  @keyframes cinematic-scale {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.04); }
+  }
+  .animate-cinematic-scale {
+    animation: cinematic-scale 20s ease-in-out infinite alternate;
   }
 }

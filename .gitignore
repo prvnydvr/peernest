@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 .data/
+PeerNest frontend/
 
 # debug
 npm-debug.log*

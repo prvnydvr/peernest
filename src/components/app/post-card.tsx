@@ -23,9 +23,9 @@ export function PostCard({ post, redirectTo }: { post: PostCardData; redirectTo:
   };
 
   return (
-    <article className={`interactive-panel group min-w-0 overflow-hidden ${isPopular ? "ring-1 ring-accent/20" : ""}`}>
+    <article className={`group min-w-0 overflow-hidden rounded-2xl border border-white/70 bg-white/85 shadow-[0_10px_35px_rgba(15,23,42,0.06)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/25 hover:bg-white hover:shadow-[0_24px_60px_rgba(99,102,241,0.12)] ${isPopular ? "ring-1 ring-accent/20" : ""}`}>
       <div className="grid gap-0 md:grid-cols-[76px_1fr]">
-        <aside className="hidden border-r border-border bg-slate-50/70 px-3 py-5 md:block">
+        <aside className="hidden border-r border-border bg-gradient-to-b from-slate-50 to-white px-3 py-5 md:block">
           <PostCardActions postId={post.id} redirectTo={redirectTo} initialState={actionState} mode="rail" />
         </aside>
         <div className="min-w-0 p-5">
@@ -41,9 +41,9 @@ export function PostCard({ post, redirectTo }: { post: PostCardData; redirectTo:
                   <span className="text-muted">{formatRelativeTime(post.createdAt)}</span>
                 </div>
                 <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-muted">
-                  <span className="pill border-slate-200 bg-slate-950 text-white">{kindLabel[post.kind]}</span>
+                  <span className="rounded-full border border-slate-200 bg-slate-950 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-white shadow-sm">{kindLabel[post.kind]}</span>
                   {post.community ? (
-                    <Link href={`/communities/${post.community.slug}`} className="font-semibold hover:text-accent">
+                    <Link href={`/communities/${post.community.slug}`} className="rounded-full bg-slate-100 px-2 py-0.5 font-semibold text-slate-600 hover:bg-accent/10 hover:text-accent">
                       {post.community.name}
                     </Link>
                   ) : (
@@ -67,14 +67,14 @@ export function PostCard({ post, redirectTo }: { post: PostCardData; redirectTo:
             <PostCardActions postId={post.id} redirectTo={redirectTo} initialState={actionState} mode="bookmark" />
           </div>
 
-          <Link href={`/posts/${post.id}`} className="mt-4 block min-w-0">
-            <h2 className="break-words text-xl font-semibold leading-snug text-slate-950 group-hover:text-accent">{post.title}</h2>
-            <p className="mt-2 break-words text-[15px] leading-7 text-slate-600">{post.content}</p>
+          <Link href={`/posts/${post.id}`} className="mt-4 block min-w-0 rounded-xl">
+            <h2 className="break-words text-xl font-semibold leading-snug tracking-tight text-slate-950 group-hover:text-accent">{post.title}</h2>
+            <p className="mt-2 line-clamp-3 break-words text-[15px] leading-7 text-slate-600">{post.content}</p>
           </Link>
 
           <div className="mt-4 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span key={tag} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
+              <span key={tag} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-600">
                 #{tag}
               </span>
             ))}
@@ -83,8 +83,8 @@ export function PostCard({ post, redirectTo }: { post: PostCardData; redirectTo:
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
             <PostCardActions postId={post.id} redirectTo={redirectTo} initialState={actionState} mode="inline" />
             <div className="flex flex-wrap items-center gap-3 text-sm">
-              <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-accent">Trend {Math.round(post.trendingScore)}</span>
-              <Link href={`/posts/${post.id}`} className="inline-flex items-center gap-2 font-semibold text-slate-600 hover:text-accent">
+              <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-accent">Signal {Math.round(post.trendingScore)}</span>
+              <Link href={`/posts/${post.id}`} className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 font-semibold text-slate-600 hover:bg-accent/10 hover:text-accent">
                 <MessageSquare className="h-4 w-4" />
                 {post.answerCount} answers
               </Link>
