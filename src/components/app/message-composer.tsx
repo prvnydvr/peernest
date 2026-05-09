@@ -48,7 +48,7 @@ export function MessageComposer({
       {recipientId ? <input type="hidden" name="recipientId" value={recipientId} /> : null}
       {conversationId ? <input type="hidden" name="conversationId" value={conversationId} /> : null}
       <div className="grid gap-3 px-5 pb-5">
-        <textarea name="body" required rows={3} className="input-field" placeholder="Write a clear, useful message..." />
+        <textarea name="body" aria-label="Message body" required rows={3} className="input-field" placeholder="Write a clear, useful message..." />
         <button className="btn-primary w-fit" disabled={pending}>
           {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           {pending ? "Sending..." : "Send"}
