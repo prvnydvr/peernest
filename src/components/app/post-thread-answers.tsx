@@ -128,6 +128,7 @@ export function PostThreadAnswers({ postId, postAuthorId, currentUser, initialAn
         <form onSubmit={submitAnswer} className="mt-4 grid gap-4">
           <textarea
             name="content"
+            aria-label="Your answer"
             required
             minLength={10}
             rows={6}
