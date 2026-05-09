@@ -1,0 +1,11 @@
+title = "PeerNest gitleaks config"
+
+[allowlist]
+description = "Allow documented placeholder values only."
+regexes = [
+  '''postgresql://postgres\.PROJECT_REF:PASSWORD@aws-0-region\.pooler\.supabase\.com:6543/postgres\?pgbouncer=true''',
+  '''replace-with-a-random-32-character-minimum-secret''',
+  '''any-32-character-minimum-string''',
+  '''sb_publishable_or_anon_key''',
+  '''optional-server-only-service-role-key''',
+]
