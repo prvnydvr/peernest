@@ -382,7 +382,11 @@ function DiscussionScene() {
           {/* Question */}
           <div className="flex gap-3 rounded-xl border border-border/50 bg-background/50 p-3">
             <div className="flex flex-col items-center pt-0.5">
-              <button className="h-7 w-7 rounded-md border border-primary/30 bg-primary/[0.06] hover:bg-primary/10 flex items-center justify-center transition-colors">
+              <button
+                className="h-7 w-7 rounded-md border border-primary/30 bg-primary/[0.06] hover:bg-primary/10 flex items-center justify-center transition-colors"
+                aria-label="Upvote"
+                title="Upvote"
+              >
                 <ArrowUp className="h-3.5 w-3.5 text-primary" />
               </button>
               <div className="text-[11.5px] font-mono font-semibold text-primary mt-1 tabular-nums">
@@ -656,7 +660,11 @@ function ProjectRoomScene() {
                 +2
               </div>
             </div>
-            <button className="rounded-md border border-border/60 bg-background/80 hover:border-primary/40 transition-colors p-1">
+            <button
+              className="rounded-md border border-border/60 bg-background/80 hover:border-primary/40 transition-colors p-1"
+              aria-label="Add user"
+              title="Add user"
+            >
               <Plus className="h-3 w-3" />
             </button>
           </div>
