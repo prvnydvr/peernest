@@ -275,6 +275,7 @@ function AnswerVoteButton({
   return (
     <button
       type="button"
+      title={value === 1 ? "Upvote answer" : "Downvote answer"}
       aria-label={value === 1 ? "Upvote answer" : "Downvote answer"}
       aria-pressed={active}
       disabled={disabled || pending}
