@@ -90,6 +90,7 @@ export function PostCardActions({ postId, redirectTo, initialState, mode }: Post
       <button
         type="button"
         className="icon-button"
+        title={state.isBookmarked ? "Remove bookmark" : "Save bookmark"}
         aria-label={state.isBookmarked ? "Remove bookmark" : "Save bookmark"}
         aria-pressed={state.isBookmarked}
         disabled={bookmarkPending}
@@ -136,6 +137,7 @@ function VoteButton({
   return (
     <button
       type="button"
+      title={value === 1 ? "Upvote" : "Downvote"}
       aria-label={value === 1 ? "Upvote" : "Downvote"}
       aria-pressed={active}
       disabled={pending}
