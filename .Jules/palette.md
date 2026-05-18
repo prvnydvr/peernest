@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessibility for Icon-Only Buttons
+**Learning:** Decorative or supplementary UI components in landing pages (like mockups or showcases) often omit accessibility attributes because they aren't the primary interactive elements. However, icon-only buttons like those found in `product-showcase.tsx` must still have `aria-label`s so screen readers can correctly interpret them.
+**Action:** Always check decorative landing page mockups for icon-only buttons and add `aria-label`s to ensure the entire page remains accessible to screen readers, even if the elements are primarily visual demonstrations.
