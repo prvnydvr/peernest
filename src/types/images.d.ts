@@ -1,4 +1,5 @@
 declare module '*.png' {
-  const value: any;
-  export default value;
+  import type { StaticImageData } from 'next/image';
+  const content: StaticImageData;
+  export default content;
 }
